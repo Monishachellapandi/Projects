@@ -1,0 +1,22 @@
+{
+    "migraine": {
+        "keywords": ["headache", "pain", "nausea", "light"],
+        "condition": "Migraine (Offline Prediction)",
+        "recommendation": "Rest in a dark room. Take pain relief. Consult a doctor if severe."
+    },
+    "cold": {
+        "keywords": ["cough", "sneeze", "runny", "nose", "fever"],
+        "condition": "Common Cold (Offline Prediction)",
+        "recommendation": "Stay hydrated, rest. Consult a doctor if it lasts more than 7 days."
+    },
+    "allergy": {
+        "keywords": ["itchy", "rash", "red", "spots"],
+        "condition": "Allergic Reaction (Offline Prediction)",
+        "recommendation": "Consider antihistamines. If breathing is difficult, seek emergency care immediately."
+    },
+    "sprain": {
+        "keywords": ["swollen", "leg", "arm", "twisted", "ankle"],
+        "condition": "Physical Sprain (Offline Prediction)",
+        "recommendation": "Apply ICE (Ice, Compression, Elevation). Do not move it."
+    }
+}

@@ -1,0 +1,111 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import DashboardChart from '../components/DashboardChart';
+
+function Dashboard() {
+    const { user, token } = useAuth();
+    const [summary, setSummary] = useState({ users: 0, prescriptions: 0, records: 0, pharmacies: 0 });
+    const [activityData, setActivityData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [summaryRes, activityRes] = await Promise.all([
+                    fetch('http://localhost:5005/api/stats/summary', { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch('http://localhost:5005/api/stats/activity', { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+                
+                const summaryData = await summaryRes.json();
+                const activityJson = await activityRes.json();
+
+                setSummary(summaryData);
+
+                // Process activity data for Recharts
+                const days = [];
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    days.push(date.toISOString().split('T')[0]);
+                }
+
+                const chartData = days.map(day => {
+                    const presMatch = activityJson.prescriptions.find(p => p._id === day);
+                    const recMatch = activityJson.records.find(r => r._id === day);
+                    return {
+                        name: day.split('-').slice(1).join('/'), // MM/DD
+                        prescriptions: presMatch ? presMatch.count : 0,
+                        records: recMatch ? recMatch.count : 0
+                    };
+                });
+
+                setActivityData(chartData);
+            } catch (err) {
+                console.error("Dashboard failed to fetch stats", err);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [token]);
+
+    const statsConfig = [
+        { label: 'Active Prescriptions', val: summary.prescriptions, color: '#3b82f6', icon: '💊' },
+        { label: 'Health Records', val: summary.records, color: '#10b981', icon: '📂' },
+        { label: 'Available Pharmacies', val: summary.pharmacies, color: '#ec4899', icon: '🏥' },
+        { label: 'Portal Users', val: summary.users, color: '#8b5cf6', icon: '👥' }
+    ];
+
+    return (
+        <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 30 }}>
+                <h1 className="page-title" style={{ marginBottom: 0 }}>Dashboard Overview</h1>
+                {(user.role === 'Patient' || user.role === 'Doctor') && (
+                    <Link to="/video" style={{ textDecoration: 'none' }}>
+                        <button className="btn btn-primary" style={{ display: 'flex', gap: 8, alignItems: 'center', background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)' }}>
+                            <span style={{ fontSize: '18px' }}>📹</span> Join Video Consult
+                        </button>
+                    </Link>
+                )}
+            </div>
+
+            <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: '18px' }}>
+                Welcome back, <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! System monitoring is active.
+            </p>
+
+            {loading ? <p>Loading system metrics...</p> : (
+                <>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '40px' }}>
+                        {statsConfig.map((stat, idx) => (
+                            <div key={idx} className="card" style={{ display: 'flex', flexDirection: 'column', padding: '24px', borderLeft: `6px solid ${stat.color}`, background: 'rgba(30, 41, 59, 0.4)' }}>
+                                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{stat.icon}</div>
+                                <h2 style={{ fontSize: '32px', fontWeight: '800', margin: 0, color: '#fff' }}>
+                                    {stat.val}
+                                </h2>
+                                <p style={{ color: 'var(--text-muted)', marginTop: '4px', fontSize: '13px', fontWeight: '500', textTransform: 'uppercase' }}>{stat.label}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="card" style={{ padding: '30px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                            <h3 style={{ margin: 0 }}>Activity Trends (Last 7 Days)</h3>
+                            <div style={{ display: 'flex', gap: '15px', fontSize: '12px' }}>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6' }}></div> Prescriptions
+                                </span>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981' }}></div> Records
+                                </span>
+                            </div>
+                        </div>
+                        <DashboardChart data={activityData} />
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
+
+
+export default Dashboard;

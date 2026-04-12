@@ -2,18 +2,18 @@
 
 A comprehensive telemedicine platform featuring role-based access control (RBAC), real-time healthcare analytics, pharmacy inventory management, and an AI-powered symptom checker.
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these steps to set up the project on your local machine after cloning.
 
-### 📋 Prerequisites
+### Prerequisites
 - **Node.js** (v16+)
 - **Python** (3.8+)
 - **MongoDB** (Running on `localhost:27017`)
 
 ---
 
-### 🛠️ Setup Instructions
+### Setup Instructions
 
 Open three separate terminals to run each component.
 
@@ -49,7 +49,7 @@ python app.py
 
 ---
 
-### 🔑 Test Accounts
+### Test Accounts
 You can use the following pre-seeded accounts to explore the different role-based views:
 
 | Role | Email | Password |
@@ -61,7 +61,7 @@ You can use the following pre-seeded accounts to explore the different role-base
 
 ---
 
-## ✨ Features
+## Features
 - **Dashboard Visuals**: Real-time trend charts and activity cards.
 - **Privacy Engine**: Users only see their own health data/trends.
 - **Pharmacy Management**: Track stock levels and medicine dosages.

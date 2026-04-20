@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -21,18 +22,18 @@ app.use(express.json());
 
 connectDB();
 
-const JWT_SECRET = 'healthcare_super_secret_key_123';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ---- AUTHENTICATION API ---- //
 app.post('/api/auth/register', async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password, role, language } = req.body;
         const hash = await bcrypt.hash(password, 10);
         
         const validRoles = ['Patient', 'Doctor', 'Pharmacy', 'Admin'];
         const finalRole = validRoles.includes(role) ? role : 'Patient';
 
-        const user = await User.create({ name, email, password: hash, role: finalRole });
+        const user = await User.create({ name, email, password: hash, role: finalRole, language: language || 'en' });
         
         // Output userId as string for frontend compatibility if needed
         res.status(201).json({ message: 'User registered successfully', userId: user._id.toString() });
@@ -52,8 +53,8 @@ app.post('/api/auth/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ error: 'Invalid Password' });
         
-        const token = jwt.sign({ id: user._id.toString(), role: user.role, name: user.name }, JWT_SECRET, { expiresIn: '24h' });
-        res.json({ token, user: { id: user._id.toString(), name: user.name, role: user.role } });
+        const token = jwt.sign({ id: user._id.toString(), role: user.role, name: user.name, language: user.language }, JWT_SECRET, { expiresIn: '24h' });
+        res.json({ token, user: { id: user._id.toString(), name: user.name, role: user.role, language: user.language } });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
@@ -89,11 +90,16 @@ app.post('/api/prescriptions', authenticateToken, async (req, res) => {
     try {
         const { patient_id, medicines, dosage } = req.body;
         if (!patient_id) return res.status(400).json({ error: 'Requires a patient_id' });
+        
+        if (!mongoose.Types.ObjectId.isValid(patient_id)) {
+            return res.status(400).json({ error: 'Invalid Patient ID format. Must be a 24-character hexadecimal string.' });
+        }
 
         const p = await Prescription.create({ patient_id, doctor_name: req.user.name, medicines, dosage });
         res.json({ message: 'Prescription added', id: p._id.toString() });
     } catch (err) {
-        res.status(500).json({ error: 'Database error' });
+        console.error('Error creating prescription:', err);
+        res.status(500).json({ error: 'Database error', details: err.message });
     }
 });
 
@@ -133,6 +139,20 @@ app.post('/api/health-records', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Database error' });
     }
 });
+
+app.put('/api/health-records/:id/verify', authenticateToken, async (req, res) => {
+    if (req.user.role !== 'Doctor' && req.user.role !== 'Admin') {
+        return res.status(403).json({ error: 'Only Doctors and Admins can verify records' });
+    }
+    try {
+        const result = await HealthRecord.findByIdAndUpdate(req.params.id, { status: 'Verified' }, { new: true });
+        if (!result) return res.status(404).json({ error: 'Record not found' });
+        res.json({ message: 'Record verified successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
 
 // ---- PHARMACY DB API ---- //
 app.get('/api/pharmacy/inventory', authenticateToken, async (req, res) => {
@@ -286,34 +306,38 @@ app.get('/api/stats/activity', authenticateToken, async (req, res) => {
     try {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        
-        // Privacy Constraint: Patients/Doctors only see THEIR OWN activity. Admin sees ALL.
-        const query = req.user.role === 'Admin' ? { date: { $gte: sevenDaysAgo } } : { 
-            patient_id: new mongoose.Types.ObjectId(req.user.id),
-            date: { $gte: sevenDaysAgo }
-        };
+
+        // Privacy: Patients see only their own data. All other roles see global activity.
+        const isPatient = req.user.role === 'Patient';
+        const patientId = isPatient ? new mongoose.Types.ObjectId(req.user.id) : null;
+
+        const prescriptionMatch = isPatient
+            ? { patient_id: patientId, date: { $gte: sevenDaysAgo } }
+            : { date: { $gte: sevenDaysAgo } };
+
+        const recordMatch = isPatient
+            ? { patient_id: patientId, created_at: { $gte: sevenDaysAgo } }
+            : { created_at: { $gte: sevenDaysAgo } };
 
         const [prescriptions, records] = await Promise.all([
             Prescription.aggregate([
-                { $match: query },
-                { $group: { 
+                { $match: prescriptionMatch },
+                { $group: {
                     _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
                     count: { $sum: 1 }
                 }},
                 { $sort: { _id: 1 } }
             ]),
             HealthRecord.aggregate([
-                { $match: req.user.role === 'Admin' ? { created_at: { $gte: sevenDaysAgo } } : { 
-                    patient_id: new mongoose.Types.ObjectId(req.user.id),
-                    created_at: { $gte: sevenDaysAgo }
-                } },
-                { $group: { 
+                { $match: recordMatch },
+                { $group: {
                     _id: { $dateToString: { format: "%Y-%m-%d", date: "$created_at" } },
                     count: { $sum: 1 }
                 }},
                 { $sort: { _id: 1 } }
             ])
         ]);
+
         res.json({ prescriptions, records });
     } catch (err) {
         console.error(err);
@@ -365,7 +389,7 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = 5005;
+const PORT = process.env.PORT || 5005;
 server.listen(PORT, () => {
     console.log(`Backend server running on http://localhost:${PORT}`);
 });

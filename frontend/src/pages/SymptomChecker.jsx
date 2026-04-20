@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function SymptomChecker() {
+    const { t } = useTranslation();
     const [symptoms, setSymptoms] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -10,7 +12,6 @@ function SymptomChecker() {
         setLoading(true);
         setError('');
         try {
-            // Attempt to hit the Python backend
             const response = await fetch('http://localhost:5001/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -21,13 +22,10 @@ function SymptomChecker() {
             const data = await response.json();
             setResult(data);
         } catch (err) {
-            // Fallback to offline logic if Service Worker intercept doesn't catch it
-            // Or network drops before SW can handle it smoothly
             try {
                 const offRes = await fetch('/offline_symptoms.json');
                 const offlineData = await offRes.json();
                 
-                // Simple keyword matching for offline fallback
                 const lowerSymptoms = symptoms.toLowerCase();
                 let foundMatch = null;
                 for (const conditionData of Object.values(offlineData)) {
@@ -40,20 +38,20 @@ function SymptomChecker() {
                 if (foundMatch) {
                     setResult({
                         condition: foundMatch.condition,
-                        confidence: "Offline Estimate",
+                        confidence: t('checker.offlineEstimate'),
                         recommendation: foundMatch.recommendation,
-                        disclaimer: "DISCLAIMER: Running in offline mode. Not a medical diagnosis."
+                        disclaimer: t('checker.offlineDisclaimer')
                     });
                 } else {
                     setResult({
-                        condition: "Unknown",
+                        condition: t('checker.unknown'),
                         confidence: "N/A",
-                        recommendation: "Cannot analyze offline. Please connect to internet or see a doctor.",
-                        disclaimer: "DISCLAIMER: Running in offline mode. Not a medical diagnosis."
+                        recommendation: t('checker.noInternet'),
+                        disclaimer: t('checker.offlineDisclaimer')
                     });
                 }
             } catch (offlineErr) {
-                setError('Failed to reach AI service and offline cache is unavailable.');
+                setError(t('checker.apiError'));
             }
         }
         setLoading(false);
@@ -61,34 +59,44 @@ function SymptomChecker() {
 
     return (
         <div>
-            <h1 className="page-title">AI Symptom Checker</h1>
+            <h1 className="page-title">{t('checker.title')}</h1>
             
-            <div className="alert-warning">
-                <strong>Disclaimer:</strong> This tool provides an AI-powered advisory based on your symptoms. It is <em>not</em> a medical diagnosis. In an emergency, please call your local emergency services immediately.
+            <div className="alert-warning" style={{ borderRadius: '12px' }}>
+                <strong className="uppercase text-xs tracking-widest block mb-2">{t('checker.labelDisclaimer')}</strong>
+                <p className="text-sm opacity-90">{t('checker.disclaimer')}</p>
             </div>
 
-            <div className="card">
+            <div className="card" style={{ padding: '32px' }}>
                 <div className="input-group">
-                    <label>Describe your symptoms clearly:</label>
+                    <label>{t('checker.label')}</label>
                     <textarea 
                         rows="4" 
                         value={symptoms}
                         onChange={(e) => setSymptoms(e.target.value)}
-                        placeholder="E.g., I have a severe headache and nausea since yesterday..."
+                        placeholder={t('checker.placeholder')}
                     />
                 </div>
-                <button className="btn btn-primary" onClick={checkSymptoms} disabled={loading || !symptoms.trim()}>
-                    {loading ? 'Analyzing...' : 'Analyze Symptoms'}
+                <button className="btn btn-primary" style={{ width: '100%', marginTop: '16px', padding: '16px' }} onClick={checkSymptoms} disabled={loading || !symptoms.trim()}>
+                    {loading ? t('checker.analyzing') : t('checker.btn')}
                 </button>
-                {error && <p style={{color: 'red', marginTop: 10}}>{error}</p>}
+                {error && <p style={{color: 'var(--danger-red)', marginTop: 10, fontSize: '14px'}}>{error}</p>}
             </div>
 
             {result && (
-                <div className="card" style={{borderLeft: '4px solid var(--success-green)'}}>
-                    <h3 style={{marginBottom: 10, color: 'var(--primary-blue)'}}>Analysis Context: {result.condition}</h3>
-                    <p><strong>Confidence / Reliability:</strong> {result.confidence}%</p>
-                    <p style={{marginTop: 10}}><strong>Recommendation:</strong> {result.recommendation}</p>
-                    <p style={{marginTop: 16, fontSize: '0.85em', color: 'var(--text-muted)'}}>{result.disclaimer}</p>
+                <div className="card animate-fade-up" style={{borderLeft: '4px solid var(--success-green)', padding: '30px'}}>
+                    <h3 style={{marginBottom: 16, color: '#fff', fontSize: '20px'}}>{t('checker.context')} {result.condition}</h3>
+                    <div className="space-y-4">
+                        <p>
+                            <strong className="text-slate-400 mr-2">{t('checker.confidence')}</strong> 
+                            <span className="text-white bg-white/10 px-2 py-1 rounded">
+                                {result.confidence}{typeof result.confidence === 'number' ? '%' : ''}
+                            </span>
+                        </p>
+                        <p><strong className="text-slate-400 block mb-2">{t('checker.recommendation')}</strong> <span className="text-slate-200 leading-relaxed">{result.recommendation}</span></p>
+                    </div>
+                    <p style={{marginTop: 24, fontSize: '0.8em', color: 'var(--text-muted)', borderTop: '1px solid var(--glass-border)', paddingTop: 16}}>
+                        {result.disclaimer}
+                    </p>
                 </div>
             )}
         </div>

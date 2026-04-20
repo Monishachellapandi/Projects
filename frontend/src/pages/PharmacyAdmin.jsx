@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function PharmacyAdmin() {
+    const { t } = useTranslation();
     const [inventory, setInventory] = useState([]);
     const [loading, setLoading] = useState(true);
     const { token } = useAuth();
@@ -84,6 +86,13 @@ function PharmacyAdmin() {
         return { color: 'var(--danger-red)', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--danger-red)' };
     };
 
+    const getStatusText = (status) => {
+        if (status === 'In Stock') return t('pharmacy.inStock');
+        if (status === 'Waiting for Delivery') return t('pharmacy.waiting');
+        if (status === 'Out of Stock') return t('pharmacy.outOfStock');
+        return status;
+    };
+
     const inStockItems = inventory.filter(i => i.status !== 'Out of Stock');
     const outOfStockItems = inventory.filter(i => i.status === 'Out of Stock');
 
@@ -96,65 +105,65 @@ function PharmacyAdmin() {
                 </div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
                     <button className="btn" onClick={() => handleUpdateStatus(item.id, 'In Stock')} style={{ padding: '4px 10px', fontSize: '12px', opacity: item.status === 'In Stock' ? 0.3 : 1 }} disabled={item.status === 'In Stock'}>
-                        Set In Stock
+                        {t('pharmacy.setInStock')}
                     </button>
                     <button className="btn" onClick={() => handleUpdateStatus(item.id, 'Out of Stock')} style={{ padding: '4px 10px', fontSize: '12px', opacity: item.status === 'Out of Stock' ? 0.3 : 1 }} disabled={item.status === 'Out of Stock'}>
-                        Set Out of Stock
+                        {t('pharmacy.setOutOfStock')}
                     </button>
                     <button className="btn btn-danger" onClick={() => handleDelete(item.id)} style={{ padding: '4px 10px', fontSize: '12px' }}>
-                        Remove
+                        {t('pharmacy.remove')}
                     </button>
                 </div>
             </div>
             <span style={{ padding: '6px 16px', borderRadius: '20px', fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', ...getStatusStyle(item.status) }}>
-                {item.status}
+                {getStatusText(item.status)}
             </span>
         </div>
     );
 
     return (
         <div>
-            <h1 className="page-title">Pharmacy Inventory Manager</h1>
+            <h1 className="page-title">{t('pharmacy.adminTitle')}</h1>
             
             <div className="card" style={{ borderColor: 'var(--primary-accent)', padding: '30px' }}>
-                <h3 style={{ marginBottom: '20px' }}>Add Medicine to Stocklist</h3>
+                <h3 style={{ marginBottom: '20px' }}>{t('pharmacy.addTitle')}</h3>
                 <form onSubmit={handleAddMedicine} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto', gap: '16px', alignItems: 'end' }}>
                     <div className="input-group" style={{ marginBottom: 0 }}>
-                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Medicine Name</label>
+                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{t('pharmacy.medName')}</label>
                         <input type="text" placeholder="e.g. Amoxicillin" required value={form.medicine_name} onChange={e => setForm({...form, medicine_name: e.target.value})} />
                     </div>
                     <div className="input-group" style={{ marginBottom: 0 }}>
-                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Dosage (Optional)</label>
+                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{t('pharmacy.dosage')}</label>
                         <input type="text" placeholder="e.g. 500mg" value={form.dosage} onChange={e => setForm({...form, dosage: e.target.value})} />
                     </div>
                     <div className="input-group" style={{ marginBottom: 0 }}>
-                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Initial Status</label>
+                        <label style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{t('pharmacy.initialStatus')}</label>
                         <select value={form.status} onChange={e => setForm({...form, status: e.target.value})}>
-                            <option value="In Stock">In Stock</option>
-                            <option value="Waiting for Delivery">Waiting for Delivery</option>
-                            <option value="Out of Stock">Out of Stock</option>
+                            <option value="In Stock">{t('pharmacy.inStock')}</option>
+                            <option value="Waiting for Delivery">{t('pharmacy.waiting')}</option>
+                            <option value="Out of Stock">{t('pharmacy.outOfStock')}</option>
                         </select>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{ padding: '14px 24px', height: 'fit-content' }}>Add Medicine</button>
+                    <button type="submit" className="btn btn-primary" style={{ padding: '14px 24px', height: 'fit-content' }}>{t('pharmacy.addBtn')}</button>
                 </form>
             </div>
 
             <div style={{ marginTop: '40px' }}>
-                {loading ? <p>Loading inventory...</p> : (
+                {loading ? <p>{t('pharmacy.loadingInv')}</p> : (
                     <>
                         <div style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
                             <div className="card" style={{ flex: 1, padding: '20px', borderLeft: '4px solid var(--success-green)' }}>
-                                <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>IN STOCK ITEMS</p>
+                                <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>{t('pharmacy.inStockItems')}</p>
                                 <h2 style={{ margin: 0 }}>{inStockItems.length}</h2>
                             </div>
                             <div className="card" style={{ flex: 1, padding: '20px', borderLeft: '4px solid var(--danger-red)' }}>
-                                <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>OUT OF STOCK</p>
+                                <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>{t('pharmacy.outOfStockItems')}</p>
                                 <h2 style={{ margin: 0 }}>{outOfStockItems.length}</h2>
                             </div>
                         </div>
 
-                        <h3 style={{ marginBottom: '16px', color: 'var(--success-green)' }}>Detailed Stocklist</h3>
-                        {inventory.length === 0 ? <p style={{ color: 'var(--text-muted)' }}>No medicines registered.</p> : (
+                        <h3 style={{ marginBottom: '16px', color: 'var(--success-green)' }}>{t('pharmacy.detailedStock')}</h3>
+                        {inventory.length === 0 ? <p style={{ color: 'var(--text-muted)' }}>{t('pharmacy.noMedicinesReg')}</p> : (
                             <div style={{ display: 'grid', gap: '16px' }}>
                                 {inventory.sort((a,b) => a.medicine_name.localeCompare(b.medicine_name)).map(item => <InventoryCard key={item.id} item={item} />)}
                             </div>
@@ -165,6 +174,5 @@ function PharmacyAdmin() {
         </div>
     );
 }
-
 
 export default PharmacyAdmin;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import DashboardChart from '../components/DashboardChart';
 
 function AdminDashboard() {
+    const { t } = useTranslation();
     const [users, setUsers] = useState([]);
     const [summary, setSummary] = useState({ users: 0, prescriptions: 0, records: 0, pharmacies: 0 });
     const [activityData, setActivityData] = useState([]);
@@ -18,7 +20,7 @@ function AdminDashboard() {
                     fetch('http://localhost:5005/api/stats/activity', { headers: { 'Authorization': `Bearer ${token}` } })
                 ]);
                 
-                if (!usersRes.ok) throw new Error('Admin access denied');
+                if (!usersRes.ok) throw new Error(t('admin.accessDenied'));
                 
                 const usersData = await usersRes.json();
                 const summaryData = await summaryRes.json();
@@ -50,39 +52,47 @@ function AdminDashboard() {
             }
         };
         fetchData();
-    }, [token]);
+    }, [token, t]);
 
     const metrics = [
-        { label: 'Total Users', val: summary.users, color: '#8b5cf6' },
-        { label: 'Total Prescriptions', val: summary.prescriptions, color: '#3b82f6' },
-        { label: 'Health Records', val: summary.records, color: '#10b981' },
-        { label: 'Registered Pharmacies', val: summary.pharmacies, color: '#ec4899' }
+        { label: t('admin.totalUsers'), val: summary.users, color: '#8b5cf6' },
+        { label: t('admin.totalPrescriptions'), val: summary.prescriptions, color: '#3b82f6' },
+        { label: t('admin.healthRecords'), val: summary.healthRecords || t('health.dbRecords'), color: '#10b981' },
+        { label: m => m === 'REGISTERED PHARMACIES' ? t('admin.pharmacies') : t('stats.pharmacies'), val: summary.pharmacies, color: '#ec4899' }
+    ];
+
+    // Fixed metrics mapping to be more robust
+    const displayMetrics = [
+        { label: t('admin.totalUsers'), val: summary.users, color: '#8b5cf6' },
+        { label: t('admin.totalPrescriptions'), val: summary.prescriptions, color: '#3b82f6' },
+        { label: t('admin.healthRecords'), val: summary.records, color: '#10b981' },
+        { label: t('admin.pharmacies'), val: summary.pharmacies, color: '#ec4899' }
     ];
 
     return (
         <div>
-            <h1 className="page-title">Admin Command Center</h1>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 32 }}>Global system oversight and user management.</p>
+            <h1 className="page-title">{t('admin.title')}</h1>
+            <p style={{ color: 'var(--text-muted)', marginBottom: 32 }}>{t('admin.desc')}</p>
             
             {error && <div className="alert-warning" style={{ marginBottom: 24 }}>{error}</div>}
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-                {metrics.map((m, i) => (
+                {displayMetrics.map((m, i) => (
                     <div key={i} className="card" style={{ padding: '20px', textAlign: 'center', borderTop: `4px solid ${m.color}` }}>
                         <h2 style={{ fontSize: '28px', margin: 0 }}>{m.val}</h2>
-                        <p style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', marginTop: 4 }}>{m.label}</p>
+                        <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: 4 }}>{m.label}</p>
                     </div>
                 ))}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px' }}>
                 <div className="card" style={{ padding: '24px' }}>
-                    <h3 style={{ marginBottom: 20 }}>Global Activity Trend</h3>
+                    <h3 style={{ marginBottom: 20 }}>{t('admin.activityTrend')}</h3>
                     <DashboardChart data={activityData} />
                 </div>
 
                 <div className="card" style={{ padding: '24px' }}>
-                    <h3 style={{ marginBottom: 20 }}>Recent User List ({users.length})</h3>
+                    <h3 style={{ marginBottom: 20 }}>{t('admin.userList')} ({users.length})</h3>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '10px' }}>
                         {users.map(u => (
                             <div key={u.id} style={{ padding: '12px', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -101,6 +111,5 @@ function AdminDashboard() {
         </div>
     );
 }
-
 
 export default AdminDashboard;

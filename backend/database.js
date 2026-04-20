@@ -7,7 +7,7 @@ const HealthRecord = require('./models/HealthRecord');
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/telemedicine');
+        await mongoose.connect(process.env.MONGO_URI);
         console.log('Connected to telemedicine MongoDB database');
 
         // Seed everything if database is fresh

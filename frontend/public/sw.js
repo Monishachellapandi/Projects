@@ -40,7 +40,7 @@ self.addEventListener('fetch', event => {
         }
       })
     );
-  } else {
+  } else if (event.request.method === 'GET') {
     // Normal caching strategy: Cache First, then Network
     event.respondWith(
       caches.match(event.request)

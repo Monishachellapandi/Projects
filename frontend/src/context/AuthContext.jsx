@@ -1,24 +1,38 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import i18n from '../i18n';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // { id, name, role }
+    const [user, setUser] = useState(null); // { id, name, role, language }
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (token) {
-            // Restore user from local storage token
-            // In a production app, you might want a /api/auth/me to fetch fresh details
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) setUser(JSON.parse(storedUser));
-        }
-        setLoading(false);
+        const checkAuth = () => {
+            const savedLang = localStorage.getItem('i18nextLng');
+            if (savedLang) {
+                i18n.changeLanguage(savedLang);
+            }
+
+            if (token) {
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+                    // User preference overrides manual session change if it exists
+                    if (parsedUser.language) {
+                        i18n.changeLanguage(parsedUser.language);
+                    }
+                }
+            }
+            setLoading(false);
+        };
+        checkAuth();
     }, [token]);
 
     const login = (jwtData, userData) => {
@@ -26,7 +40,13 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         localStorage.setItem('token', jwtData);
         localStorage.setItem('user', JSON.stringify(userData));
-        navigate('/');
+        
+        // Apply user's language preference during login
+        if (userData.language) {
+            i18n.changeLanguage(userData.language);
+        }
+        
+        navigate('/dashboard');
     };
 
     const logout = () => {

@@ -4,27 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom';
 
-// i18n configuration for multilingual support
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
-const resources = {
-  en: {
-    translation: {
-      "Welcome": "Welcome to HealthCare Portal",
-      "Symptom Checker": "Symptom Checker",
-      "Health Records": "Health Records",
-      "Prescriptions": "Prescriptions",
-      "Pharmacy": "Pharmacy Availability"
-    }
-  }
-};
-
-i18n.use(initReactI18next).init({
-  resources,
-  lng: "en",
-  interpolation: { escapeValue: false }
-});
+import './i18n';
 
 // PWA Service Worker Registration
 if ('serviceWorker' in navigator) {

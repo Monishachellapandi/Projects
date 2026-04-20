@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import DashboardChart from '../components/DashboardChart';
 
 function Dashboard() {
     const { user, token } = useAuth();
+    const { t } = useTranslation();
     const [summary, setSummary] = useState({ users: 0, prescriptions: 0, records: 0, pharmacies: 0 });
     const [activityData, setActivityData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -50,27 +52,27 @@ function Dashboard() {
     }, [token]);
 
     const statsConfig = [
-        { label: 'Active Prescriptions', val: summary.prescriptions, color: '#3b82f6', icon: '💊' },
-        { label: 'Health Records', val: summary.records, color: '#10b981', icon: '📂' },
-        { label: 'Available Pharmacies', val: summary.pharmacies, color: '#ec4899', icon: '🏥' },
-        { label: 'Portal Users', val: summary.users, color: '#8b5cf6', icon: '👥' }
+        { label: t('stats.prescriptions'), val: summary.prescriptions, color: '#3b82f6', icon: '💊' },
+        { label: t('stats.records'), val: summary.records, color: '#10b981', icon: '📂' },
+        { label: t('stats.pharmacies'), val: summary.pharmacies, color: '#ec4899', icon: '🏥' },
+        { label: t('stats.users'), val: summary.users, color: '#8b5cf6', icon: '👥' }
     ];
 
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 30 }}>
-                <h1 className="page-title" style={{ marginBottom: 0 }}>Dashboard Overview</h1>
+                <h1 className="page-title" style={{ marginBottom: 0 }}>{t('stats.overview')}</h1>
                 {(user.role === 'Patient' || user.role === 'Doctor') && (
                     <Link to="/video" style={{ textDecoration: 'none' }}>
                         <button className="btn btn-primary" style={{ display: 'flex', gap: 8, alignItems: 'center', background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)' }}>
-                            <span style={{ fontSize: '18px' }}>📹</span> Join Video Consult
+                            <span style={{ fontSize: '18px' }}>📹</span> {t('stats.videoBtn')}
                         </button>
                     </Link>
                 )}
             </div>
 
             <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: '18px' }}>
-                Welcome back, <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! System monitoring is active.
+                {t('dashboard.welcome')} <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! {t('stats.monitoring')}
             </p>
 
             {loading ? <p>Loading system metrics...</p> : (
@@ -89,13 +91,13 @@ function Dashboard() {
 
                     <div className="card" style={{ padding: '30px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h3 style={{ margin: 0 }}>Activity Trends (Last 7 Days)</h3>
+                            <h3 style={{ margin: 0 }}>{t('stats.activityTrends')}</h3>
                             <div style={{ display: 'flex', gap: '15px', fontSize: '12px' }}>
                                 <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6' }}></div> Prescriptions
+                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6' }}></div> {t('stats.prescriptions')}
                                 </span>
                                 <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981' }}></div> Records
+                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981' }}></div> {t('stats.records')}
                                 </span>
                             </div>
                         </div>
@@ -106,6 +108,5 @@ function Dashboard() {
         </div>
     );
 }
-
 
 export default Dashboard;

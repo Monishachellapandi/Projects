@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function Login() {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -34,23 +36,27 @@ function Login() {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '60px auto' }}>
-            <h1 className="page-title" style={{ textAlign: 'center' }}>Sign In</h1>
-            <div className="card">
+        <div style={{ maxWidth: '400px', margin: '80px auto' }}>
+            <h1 className="page-title" style={{ textAlign: 'center' }}>{t('login.title')}</h1>
+            <div className="card" style={{ padding: '40px' }}>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <label>Email Address</label>
-                        <input type="email" required onChange={e => setEmail(e.target.value)} />
+                        <label>{t('login.email')}</label>
+                        <input type="email" required placeholder="email@example.com" onChange={e => setEmail(e.target.value)} />
                     </div>
                     <div className="input-group">
-                        <label>Password</label>
+                        <label>{t('login.password')}</label>
                         <input type="password" required onChange={e => setPassword(e.target.value)} />
                     </div>
-                    {error && <p style={{ color: 'var(--danger-red)', marginBottom: 12 }}>{error}</p>}
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Login</button>
+                    {error && <p style={{ color: 'var(--danger-red)', marginBottom: 12, fontSize: '14px' }}>{error}</p>}
+                    <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '16px', marginTop: '10px' }}>
+                        {t('login.btn')}
+                    </button>
                 </form>
-                <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                    <p style={{ color: 'var(--text-muted)' }}>Don't have an account? <Link to="/register">Register here</Link></p>
+                <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+                        {t('login.noAccount')} <Link to="/register" style={{ color: 'var(--primary-accent)', fontWeight: '600' }}>{t('login.register')}</Link>
+                    </p>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DashboardChart from '../components/DashboardChart';
+import { Pill, FolderOpen, Hospital, Users, Video } from 'lucide-react';
 
 function Dashboard() {
     const { user, token } = useAuth();
@@ -52,10 +53,10 @@ function Dashboard() {
     }, [token]);
 
     const statsConfig = [
-        { label: t('stats.prescriptions'), val: summary.prescriptions, color: '#3b82f6', icon: '💊' },
-        { label: t('stats.records'), val: summary.records, color: '#10b981', icon: '📂' },
-        { label: t('stats.pharmacies'), val: summary.pharmacies, color: '#ec4899', icon: '🏥' },
-        { label: t('stats.users'), val: summary.users, color: '#8b5cf6', icon: '👥' }
+        { label: t('stats.prescriptions'), val: summary.prescriptions, color: '#3b82f6', icon: <Pill size={24} color="#3b82f6" /> },
+        { label: t('stats.records'),       val: summary.records,       color: '#10b981', icon: <FolderOpen size={24} color="#10b981" /> },
+        { label: t('stats.pharmacies'),    val: summary.pharmacies,    color: '#ec4899', icon: <Hospital size={24} color="#ec4899" /> },
+        { label: t('stats.users'),         val: summary.users,         color: '#8b5cf6', icon: <Users size={24} color="#8b5cf6" /> },
     ];
 
     return (
@@ -65,7 +66,7 @@ function Dashboard() {
                 {(user.role === 'Patient' || user.role === 'Doctor') && (
                     <Link to="/video" style={{ textDecoration: 'none' }}>
                         <button className="btn btn-primary" style={{ display: 'flex', gap: 8, alignItems: 'center', background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)' }}>
-                            <span style={{ fontSize: '18px' }}>📹</span> {t('stats.videoBtn')}
+                            <Video size={18} /> {t('stats.videoBtn')}
                         </button>
                     </Link>
                 )}
@@ -80,7 +81,7 @@ function Dashboard() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '40px' }}>
                         {statsConfig.map((stat, idx) => (
                             <div key={idx} className="card" style={{ display: 'flex', flexDirection: 'column', padding: '24px', borderLeft: `6px solid ${stat.color}`, background: 'rgba(30, 41, 59, 0.4)' }}>
-                                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{stat.icon}</div>
+                                <div style={{ marginBottom: '8px' }}>{stat.icon}</div>
                                 <h2 style={{ fontSize: '32px', fontWeight: '800', margin: 0, color: '#fff' }}>
                                     {stat.val}
                                 </h2>

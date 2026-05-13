@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +11,20 @@ function Prescriptions() {
 
     // Doctor Form State
     const [form, setForm] = useState({ patient_id: '', medicines: '', dosage: '' });
+    const [patients, setPatients] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const fetchPrescriptions = () => {
         fetch('http://localhost:5005/api/prescriptions', {
@@ -27,9 +41,23 @@ function Prescriptions() {
         });
     };
 
+    const fetchPatients = () => {
+        fetch('http://localhost:5005/api/patients', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(data => {
+            setPatients(data);
+        })
+        .catch(err => console.error('Error fetching patients:', err));
+    };
+
     useEffect(() => {
         fetchPrescriptions();
-    }, [token]);
+        if (user?.role === 'Doctor') {
+            fetchPatients();
+        }
+    }, [token, user]);
 
     const handleCreatePrescription = async (e) => {
         e.preventDefault();
@@ -42,8 +70,12 @@ function Prescriptions() {
                 },
                 body: JSON.stringify(form)
             });
-            if (!res.ok) throw new Error('Failed to create prescription');
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error || errData.details || 'Failed to create prescription');
+            }
             setForm({ patient_id: '', medicines: '', dosage: '' });
+            setSearchTerm('');
             fetchPrescriptions(); // Refresh list
         } catch(err) {
             console.error('Prescription creation error:', err);
@@ -57,6 +89,11 @@ function Prescriptions() {
         alert(`Generating PDF for prescription #${id}. \n(Requires backend PDF stream setup)`);
     };
 
+    const filteredPatients = patients.filter(p => 
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        p.patientId.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const isDoctor = user?.role === 'Doctor';
 
     return (
@@ -66,16 +103,65 @@ function Prescriptions() {
             {error && <div className="alert-warning" style={{ backgroundColor: '#FEF2F2', color: 'var(--danger-red)' }}>{error}</div>}
 
             {isDoctor && (
-                <div className="card" style={{ backgroundColor: '#F0FDF4' }}>
-                    <h3 style={{ marginBottom: 16 }}>{t('prescriptions.issueTitle')}</h3>
-                    <form onSubmit={handleCreatePrescription} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div className="input-group">
-                            <label>{t('health.patientId')} (24-char MongoDB ID)</label>
-                            <input type="text" required placeholder="e.g. 60d5ecb8b3... " value={form.patient_id} onChange={e => setForm({...form, patient_id: e.target.value})} />
+                <div className="card" style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', overflow: 'visible' }}>
+                    <h3 style={{ marginBottom: 24, color: 'var(--success-green)' }}>{t('prescriptions.issueTitle')}</h3>
+                    <form onSubmit={handleCreatePrescription} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div className="input-group" style={{ position: 'relative' }}>
+                            <label>{t('health.patientId')}</label>
+                            <div className="searchable-dropdown" ref={dropdownRef}>
+                                <input 
+                                    type="text" 
+                                    placeholder={form.patient_id ? `${form.patient_id}` : "Search by name or ID..."}
+                                    value={searchTerm} 
+                                    onChange={e => {
+                                        setSearchTerm(e.target.value);
+                                        setShowDropdown(true);
+                                    }}
+                                    onFocus={() => setShowDropdown(true)}
+                                    autoComplete="off"
+                                />
+                                {showDropdown && (
+                                    <div className="dropdown-list">
+                                        {filteredPatients.length > 0 ? (
+                                            filteredPatients.map(p => (
+                                                <div 
+                                                    key={p.patientId} 
+                                                    className="dropdown-item"
+                                                    onClick={() => {
+                                                        setForm({ ...form, patient_id: p.patientId });
+                                                        setSearchTerm(p.name);
+                                                        setShowDropdown(false);
+                                                    }}
+                                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                                >
+                                                    <span className="patient-name" style={{ fontWeight: '600' }}>{p.name}</span>
+                                                    <span className="patient-id" style={{ 
+                                                        backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                                                        color: 'var(--primary-accent)', 
+                                                        padding: '2px 8px', 
+                                                        borderRadius: '4px', 
+                                                        fontWeight: 'bold',
+                                                        fontSize: '11px'
+                                                    }}>
+                                                        {p.patientId}
+                                                    </span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="no-results">No patients found</div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            {form.patient_id && !searchTerm.includes(form.patient_id) && (
+                                <small style={{ marginTop: 8, color: 'var(--success-green)', fontWeight: 500 }}>
+                                    Selected: {form.patient_id}
+                                </small>
+                            )}
                         </div>
                         <div className="input-group">
                             <label>{t('prescriptions.medicines')}</label>
-                            <textarea required value={form.medicines} onChange={e => setForm({...form, medicines: e.target.value})}></textarea>
+                            <textarea required placeholder="Enter medicines..." value={form.medicines} onChange={e => setForm({...form, medicines: e.target.value})}></textarea>
                         </div>
                         <div className="input-group">
                             <label>{t('prescriptions.dosage')}</label>
@@ -96,7 +182,7 @@ function Prescriptions() {
                                 <h3 style={{ color: 'var(--primary-blue)' }}>{t('prescriptions.prescBy')} {presc.doctor_name}</h3>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: 16 }}>{t('prescriptions.dateAdded')}: {new Date(presc.date).toLocaleDateString()}</p>
                                 
-                                {isDoctor && <p style={{ marginBottom: 8, fontWeight: 'bold' }}>{t('prescriptions.forPatient')}: {presc.patient_id}</p>}
+                                {isDoctor && <p style={{ marginBottom: 8, fontWeight: 'bold' }}>{t('prescriptions.forPatient')}: {presc.patient_id_short || presc.patient_id}</p>}
 
                                 <h4 style={{ marginBottom: 4 }}>{t('prescriptions.medicines')}</h4>
                                 <p style={{ marginBottom: 12 }}>{presc.medicines}</p>

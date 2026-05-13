@@ -72,9 +72,19 @@ function Dashboard() {
                 )}
             </div>
 
-            <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: '18px' }}>
-                {t('dashboard.welcome')} <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! {t('stats.monitoring')}
-            </p>
+            <div style={{ marginBottom: 24 }}>
+                <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '18px' }}>
+                    {t('dashboard.welcome')} <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! {t('stats.monitoring')}
+                </p>
+                {user.role === 'Patient' && user.patientId && (
+                    <div style={{ marginTop: '12px', padding: '12px 16px', background: '#e0f2fe', borderRadius: '8px', display: 'inline-block', border: '1px solid #bae6fd', color: '#0369a1', fontSize: '15px' }}>
+                        <strong style={{ marginRight: '8px' }}>Your Patient ID:</strong> 
+                        <span style={{ fontFamily: 'monospace', fontSize: '16px', letterSpacing: '1px', background: '#fff', padding: '4px 8px', borderRadius: '4px', border: '1px solid #7dd3fc' }}>
+                            {user.patientId}
+                        </span>
+                    </div>
+                )}
+            </div>
 
             {loading ? <p>Loading system metrics...</p> : (
                 <>

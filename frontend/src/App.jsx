@@ -16,6 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import PharmacyAdmin from './pages/PharmacyAdmin';
 import VideoCall from './pages/VideoCall';
 import LandingPage from './pages/LandingPage';
+import MyOrders from './pages/MyOrders';
 
 function MainLayout() {
   const { t, i18n } = useTranslation();
@@ -35,6 +36,8 @@ function MainLayout() {
         
         <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>{t('sidebar.dashboard')}</Link>
         <Link to="/pharmacy" className={location.pathname === '/pharmacy' ? 'active' : ''}>{t('sidebar.findMedicines')}</Link>
+
+        {isPatient && <Link to="/my-orders" className={location.pathname === '/my-orders' ? 'active' : ''}>{t('sidebar.myOrders')}</Link>}
 
         {isPharmacy && <Link to="/inventory" className={location.pathname === '/inventory' ? 'active' : ''}>{t('sidebar.manageInventory')}</Link>}
 
@@ -59,7 +62,12 @@ function MainLayout() {
                 </div>
                 <div>
                     <p style={{ fontSize: '14px', fontWeight: '600', margin: 0 }}>{user?.name || 'User'}</p>
-                    <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, textTransform: 'uppercase' }}>{user?.role ? t(`roles.${user.role.toLowerCase()}`) : t('roles.guest')}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, textTransform: 'uppercase' }}>{user?.role ? t(`roles.${user.role.toLowerCase()}`) : t('roles.guest')}</p>
+                      {user?.role === 'Patient' && user?.patientId && (
+                        <p style={{ fontSize: '11px', color: 'var(--primary-accent)', margin: 0, fontWeight: '700' }}>• {user.patientId}</p>
+                      )}
+                    </div>
                 </div>
             </div>
 
@@ -118,6 +126,7 @@ function MainLayout() {
           <Route path="/health-records" element={<ProtectedRoute allowedRoles={['Patient', 'Doctor']}><HealthRecords /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute allowedRoles={['Admin']}><AdminDashboard /></ProtectedRoute>} />
           <Route path="/inventory" element={<ProtectedRoute allowedRoles={['Pharmacy']}><PharmacyAdmin /></ProtectedRoute>} />
+          <Route path="/my-orders" element={<ProtectedRoute allowedRoles={['Patient']}><MyOrders /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>

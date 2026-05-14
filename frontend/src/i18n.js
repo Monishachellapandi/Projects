@@ -52,11 +52,11 @@ const resources = {
       },
       "login": {
         "title": "Sign In",
-        "noAccount": "Don't have an account?",
-        "register": "Register here",
-        "btn": "Login",
         "email": "Email Address",
-        "password": "Password"
+        "password": "Password",
+        "btn": "Login",
+        "noAccount": "Don't have an account?",
+        "register": "Register here"
       },
       "checker": {
         "title": "AI Symptom Checker",
@@ -84,12 +84,11 @@ const resources = {
         "prescriptions": "Prescriptions",
         "videoConsult": "Video Consult",
         "manageUsers": "Manage Users",
+        "myOrders": "My Orders",
         "logout": "Logout",
         "language": "Language"
       },
-      "dashboard": {
-        "welcome": "Welcome back,"
-      },
+      "dashboard": { "welcome": "Welcome back," },
       "stats": {
         "prescriptions": "Active Prescriptions",
         "records": "Health Records",
@@ -113,7 +112,9 @@ const resources = {
         "forPatient": "For Patient ID",
         "verified": "Verified",
         "pending": "Pending Verification",
-        "verifyBtn": "Verify Record"
+        "verifyBtn": "Verify Record",
+        "openBtn": "Open Document",
+        "closeBtn": "Close"
       },
       "pharmacy": {
         "title": "Local Pharmacy Availability",
@@ -137,7 +138,42 @@ const resources = {
         "noMedicinesReg": "No medicines registered.",
         "setInStock": "Set In Stock",
         "setOutOfStock": "Set Out of Stock",
-        "remove": "Remove"
+        "remove": "Remove",
+        "price": "Price (₹)",
+        "quantity": "Quantity",
+        "category": "Category",
+        "profileTab": "Pharmacy Profile",
+        "inventoryTab": "Inventory",
+        "ordersTab": "Orders",
+        "profileTitle": "Pharmacy Profile & Location",
+        "profileDesc": "Set your pharmacy name and location so patients nearby can find you.",
+        "profileSaved": "Profile saved successfully!",
+        "pharmacyName": "Pharmacy Name",
+        "pharmacyAddress": "Address / Location",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "detectLocation": "Detect My Location",
+        "saveProfile": "Save Profile",
+        "incomingOrders": "Incoming Orders",
+        "noOrders": "No orders yet.",
+        "locationDetected": "Your location has been detected. Showing nearby pharmacies.",
+        "nearbyPharmacies": "Nearby Pharmacies",
+        "allMedicines": "All Medicines",
+        "noPharmacies": "No pharmacies registered nearby.",
+        "medsAvailable": "medicines in stock",
+        "viewMedicines": "View Medicines",
+        "buy": "Buy",
+        "itemsInCart": "items in cart",
+        "placeOrder": "Place Order",
+        "buyMedicine": "Buy Medicine"
+      },
+      "orders": {
+        "title": "My Orders",
+        "loading": "Loading orders...",
+        "noOrders": "No orders yet",
+        "noOrdersDesc": "Browse nearby pharmacies and buy medicines to see your orders here.",
+        "orderId": "Order ID",
+        "total": "Total"
       },
       "prescriptions": {
         "titleDoctor": "Issue & View Prescriptions",
@@ -181,25 +217,27 @@ const resources = {
       }
     }
   },
+
   hi: {
     translation: {
       "nav": { "brand": "टेलीमेडिसिन", "signin": "साइन इन" },
-      "features": {
-        "sectionTitle": "संपूर्ण ग्रामीण स्वास्थ्य देखभाल पारिस्थितिकी तंत्र",
-        "sectionDesc": "हमने स्वस्थ जीवन के लिए आवश्यक सभी उपकरण तैयार किए हैं, जो विशेष रूप से ग्रामीण क्षेत्रों के लिए डिज़ाइन किए गए हैं।",
-        "ai": { "title": "AI लक्षण जांचकर्ता", "desc": "आपके लक्षणों के आधार पर तुरंत AI-संचालित चिकित्सा सलाह।" },
-        "pharmacy": { "title": "लाइव फार्मेसी खोज", "desc": "वास्तविक समय के स्टॉक के साथ नजदीकी फार्मेसियों में दवाएं खोजें।" },
-        "records": { "title": "सत्यापित स्वास्थ्य वॉल्ट", "desc": "डॉक्टर की निगरानी के साथ अपने स्वास्थ्य रिकॉर्ड को सुरक्षित रूप से संग्रहीत करें।" },
-        "video": { "title": "कम बैंडविड्थ कॉल", "desc": "धीमे इंटरनेट के लिए अनुकूलित वीडियो कॉल के माध्यम से विश्वसनीय डॉक्टरों से परामर्श लें।" }
-      },
       "hero": {
         "badge": "सभी के लिए सुलभ देखभाल",
         "title1": "विशेषज्ञ चिकित्सा देखभाल,",
         "title2": "सीधे आपके गाँव तक",
+        "desc": "भौगोलिक बाधाओं को तोड़कर ग्रामीण समुदायों के लिए वास्तविक समय परामर्श प्रदान करना।",
         "getStarted": "अभी शुरू करें",
         "learnMore": "और जानें",
         "doctors": "सत्यापित डॉक्टर",
         "secure": "सुरक्षित डेटा"
+      },
+      "features": {
+        "sectionTitle": "संपूर्ण ग्रामीण स्वास्थ्य देखभाल पारिस्थितिकी तंत्र",
+        "sectionDesc": "हमने स्वस्थ जीवन के लिए आवश्यक सभी उपकरण तैयार किए हैं।",
+        "ai": { "title": "AI लक्षण जांचकर्ता", "desc": "आपके लक्षणों के आधार पर तुरंत AI-संचालित चिकित्सा सलाह।" },
+        "pharmacy": { "title": "लाइव फार्मेसी खोज", "desc": "वास्तविक समय स्टॉक के साथ नजदीकी फार्मेसियों में दवाएं खोजें।" },
+        "records": { "title": "सत्यापित स्वास्थ्य वॉल्ट", "desc": "डॉक्टर की निगरानी के साथ अपने स्वास्थ्य रिकॉर्ड सुरक्षित रखें।" },
+        "video": { "title": "कम बैंडविड्थ कॉल", "desc": "धीमे इंटरनेट के लिए अनुकूलित वीडियो कॉल से डॉक्टरों से परामर्श लें।" }
       },
       "register": {
         "title": "खाता बनाएं",
@@ -209,12 +247,21 @@ const resources = {
         "role": "खाता भूमिका",
         "language": "पसंदीदा भाषा",
         "btn": "रजिस्टर करें",
+        "haveAccount": "क्या आपके पास पहले से खाता है?",
+        "login": "लॉगिन करें",
         "success": "पंजीकरण सफल! लॉगइन पर पुनर्निर्देशित किया जा रहा है..."
       },
-      "login": { "title": "साइन इन", "btn": "लॉगइन" },
+      "login": {
+        "title": "साइन इन",
+        "email": "ईमेल पता",
+        "password": "पासवर्ड",
+        "btn": "लॉगइन",
+        "noAccount": "क्या आपके पास खाता नहीं है?",
+        "register": "यहाँ पंजीकरण करें"
+      },
       "checker": {
         "title": "AI लक्षण जांचकर्ता",
-        "disclaimer": "यह उपकरण आपके लक्षणों के आधार पर एक AI-आधारित सलाह प्रदान करता है। यह एक चिकित्सा निदान नहीं है। आपात स्थिति में, तुरंत अपनी स्थानीय आपातकालीन सेवाओं को कॉल करें।",
+        "disclaimer": "यह उपकरण आपके लक्षणों के आधार पर एक AI-आधारित सलाह प्रदान करता है। यह चिकित्सा निदान नहीं है।",
         "label": "अपने लक्षणों को स्पष्ट रूप से बताएं:",
         "placeholder": "जैसे, मुझे कल से तेज सिरदर्द और जी मिचला रहा है...",
         "btn": "लक्षणों का विश्लेषण करें",
@@ -222,11 +269,11 @@ const resources = {
         "context": "विश्लेषण संदर्भ:",
         "confidence": "आत्मविश्वास / विश्वसनीयता:",
         "recommendation": "सिफारिश:",
-        "offlineDisclaimer": "अस्वीकरण: ऑफ़लाइन मोड में चल रहा है। चिकित्सा निदान नहीं है।",
+        "offlineDisclaimer": "अस्वीकरण: ऑफ़लाइन मोड में चल रहा है।",
         "offlineEstimate": "ऑफ़लाइन अनुमान",
         "unknown": "अज्ञात",
-        "noInternet": "ऑफ़लाइन विश्लेषण नहीं किया जा सकता। कृपया इंटरनेट से जुड़ें या डॉक्टर से मिलें।",
-        "apiError": "AI सेवा तक पहुँचने में विफल और ऑफ़लाइन कैश अनुपलब्ध है।",
+        "noInternet": "ऑफ़लाइन विश्लेषण नहीं किया जा सकता। कृपया इंटरनेट से जुड़ें।",
+        "apiError": "AI सेवा तक पहुँचने में विफल।",
         "labelDisclaimer": "अस्वीकरण"
       },
       "sidebar": {
@@ -237,6 +284,8 @@ const resources = {
         "healthRecords": "स्वास्थ्य रिकॉर्ड",
         "prescriptions": "नुस्खे",
         "videoConsult": "वीडियो परामर्श",
+        "manageUsers": "उपयोगकर्ता प्रबंधन",
+        "myOrders": "मेरे ऑर्डर",
         "logout": "लॉगआउट",
         "language": "भाषा"
       },
@@ -264,12 +313,15 @@ const resources = {
         "forPatient": "मरीज आईडी के लिए",
         "verified": "सत्यापित",
         "pending": "सत्यापन लंबित",
-        "verifyBtn": "सत्यापित करें"
+        "verifyBtn": "सत्यापित करें",
+        "openBtn": "दस्तावेज़ खोलें",
+        "closeBtn": "बंद करें"
       },
       "pharmacy": {
         "title": "स्थानीय फार्मेसी उपलब्धता",
         "searchPlaceholder": "दवा खोजें...",
-        "loading": "लोड हो रहा है",
+        "loading": "लोड हो रहा है...",
+        "noMedicines": "कोई दवा नहीं मिली।",
         "inStock": "स्टॉक में",
         "waiting": "डिलीवरी की प्रतीक्षा",
         "outOfStock": "स्टॉक में नहीं",
@@ -287,7 +339,42 @@ const resources = {
         "noMedicinesReg": "कोई दवा पंजीकृत नहीं है।",
         "setInStock": "स्टॉक में सेट करें",
         "setOutOfStock": "आउट ऑफ स्टॉक सेट करें",
-        "remove": "हटाएं"
+        "remove": "हटाएं",
+        "price": "कीमत (₹)",
+        "quantity": "मात्रा",
+        "category": "श्रेणी",
+        "profileTab": "फार्मेसी प्रोफ़ाइल",
+        "inventoryTab": "इन्वेंट्री",
+        "ordersTab": "ऑर्डर",
+        "profileTitle": "फार्मेसी प्रोफ़ाइल और स्थान",
+        "profileDesc": "अपनी फार्मेसी का नाम और स्थान सेट करें ताकि नजदीकी मरीज आपको खोज सकें।",
+        "profileSaved": "प्रोफ़ाइल सफलतापूर्वक सेव हो गई!",
+        "pharmacyName": "फार्मेसी का नाम",
+        "pharmacyAddress": "पता / स्थान",
+        "latitude": "अक्षांश",
+        "longitude": "देशांतर",
+        "detectLocation": "मेरा स्थान पता करें",
+        "saveProfile": "प्रोफ़ाइल सेव करें",
+        "incomingOrders": "आने वाले ऑर्डर",
+        "noOrders": "अभी कोई ऑर्डर नहीं।",
+        "locationDetected": "आपका स्थान पता चला है। नजदीकी फार्मेसी दिखा रहे हैं।",
+        "nearbyPharmacies": "नजदीकी फार्मेसियाँ",
+        "allMedicines": "सभी दवाएं",
+        "noPharmacies": "कोई नजदीकी फार्मेसी पंजीकृत नहीं है।",
+        "medsAvailable": "दवाएं उपलब्ध",
+        "viewMedicines": "दवाएं देखें",
+        "buy": "खरीदें",
+        "itemsInCart": "कार्ट में आइटम",
+        "placeOrder": "ऑर्डर दें",
+        "buyMedicine": "दवा खरीदें"
+      },
+      "orders": {
+        "title": "मेरे ऑर्डर",
+        "loading": "ऑर्डर लोड हो रहे हैं...",
+        "noOrders": "अभी कोई ऑर्डर नहीं",
+        "noOrdersDesc": "नजदीकी फार्मेसियों से दवाएं खरीदें।",
+        "orderId": "ऑर्डर आईडी",
+        "total": "कुल"
       },
       "prescriptions": {
         "titleDoctor": "नुस्खे जारी करें और देखें",
@@ -320,7 +407,7 @@ const resources = {
         "pharmacies": "पंजीकृत फार्मेसियाँ",
         "activityTrend": "ग्लोबल गतिविधि रुझान",
         "userList": "हालिया उपयोगकर्ता सूची",
-        "accessDenied": "एडमिन एक्सेस अस्वीकार कर दिया गया"
+        "accessDenied": "एडमिन एक्सेस अस्वीकार"
       },
       "roles": {
         "patient": "मरीज",
@@ -331,6 +418,7 @@ const resources = {
       }
     }
   },
+
   pa: {
     translation: {
       "nav": { "brand": "ਟੈਲੀਮੇਡੀਸਨ", "signin": "ਸਾਈਨ ਇਨ" },
@@ -338,7 +426,7 @@ const resources = {
         "badge": "ਸਭ ਲਈ ਪਹੁੰਚਯੋਗ ਦੇਖਭਾਲ",
         "title1": "ਮਾਹਿਰ ਡਾਕਟਰੀ ਦੇਖਭਾਲ,",
         "title2": "ਸਿੱਧਾ ਤੁਹਾਡੇ ਪਿੰਡ ਤੱਕ",
-        "desc": "ਭੂਗੋਲਿਕ ਰੁਕਾਵਟਾਂ ਨੂੰ ਤੋੜ ਕੇ ਪੇਂਡੂ ਭਾਈਚਾਰਿਆਂ ਲਈ ਅਸਲ-ਸਮੇਂ ਦੀ ਸਲਾਹ ਅਤੇ ਭਰੋਸੇਯੋਗ ਸਿਹਤ ਟਰੈਕਿੰਗ ਪ੍ਰਦਾਨ ਕਰਨਾ।",
+        "desc": "ਭੂਗੋਲਿਕ ਰੁਕਾਵਟਾਂ ਨੂੰ ਤੋੜ ਕੇ ਪੇਂਡੂ ਭਾਈਚਾਰਿਆਂ ਲਈ ਅਸਲ-ਸਮੇਂ ਦੀ ਸਲਾਹ ਪ੍ਰਦਾਨ ਕਰਨਾ।",
         "getStarted": "ਹੁਣੇ ਸ਼ੁਰੂ ਕਰੋ",
         "learnMore": "ਹੋਰ ਜਾਣੋ",
         "doctors": "ਪ੍ਰਮਾਣਿਤ ਡਾਕਟਰ",
@@ -346,9 +434,9 @@ const resources = {
       },
       "features": {
         "sectionTitle": "ਸੰਪੂਰਨ ਪੇਂਡੂ ਸਿਹਤ ਸੰਭਾਲ ਪ੍ਰਣਾਲੀ",
-        "sectionDesc": "ਅਸੀਂ ਸਿਹਤਮੰਦ ਜੀਵਨ ਲਈ ਲੋੜੀਂਦੇ ਸਾਰੇ ਸਾਧਨ ਤਿਆਰ ਕੀਤੇ ਹਨ, ਜੋ ਖਾਸ ਤੌਰ 'ਤੇ ਪੇਂਡੂ ਖੇਤਰਾਂ ਲਈ ਹਨ।",
-        "ai": { "title": "AI ਲੱਛਣ ਜਾਂਚਕਰਤਾ", "desc": "ਤੁਹਾਡੇ ਲੱਛਣਾਂ ਦੇ ਅਧਾਰ ਤੇ ਤੁਰੰਤ AI-ਸੰਚਾਲਿਤ ਡਾਕਟਰੀ ਸਲਾਹ।" },
-        "pharmacy": { "title": "ਲਾਈਵ ਫਾਰਮੇਸੀ ਖੋਜ", "desc": "ਨੇੜਲੀਆਂ ਫਾਰਮੇਸੀਆਂ ਵਿੱਚ ਦਵਾਈਆਂ ਅਤੇ ਉਹਨਾਂ ਦੇ ਸਟਾਕ ਦੀ ਤੁਰੰਤ ਜਾਣਕਾਰੀ।" },
+        "sectionDesc": "ਅਸੀਂ ਸਿਹਤਮੰਦ ਜੀਵਨ ਲਈ ਲੋੜੀਂਦੇ ਸਾਰੇ ਸਾਧਨ ਤਿਆਰ ਕੀਤੇ ਹਨ।",
+        "ai": { "title": "AI ਲੱਛਣ ਜਾਂਚਕਰਤਾ", "desc": "ਤੁਹਾਡੇ ਲੱਛਣਾਂ ਦੇ ਅਧਾਰ ਤੇ ਤੁਰੰਤ AI ਡਾਕਟਰੀ ਸਲਾਹ।" },
+        "pharmacy": { "title": "ਲਾਈਵ ਫਾਰਮੇਸੀ ਖੋਜ", "desc": "ਨੇੜਲੀਆਂ ਫਾਰਮੇਸੀਆਂ ਵਿੱਚ ਦਵਾਈਆਂ ਦਾ ਸਟਾਕ ਦੇਖੋ।" },
         "records": { "title": "ਪ੍ਰਮਾਣਿਤ ਸਿਹਤ ਵਾਲਟ", "desc": "ਡਾਕਟਰ ਦੀ ਨਿਗਰਾਨੀ ਹੇਠ ਆਪਣੇ ਸਿਹਤ ਰਿਕਾਰਡਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਰੱਖੋ।" },
         "video": { "title": "ਘੱਟ ਬੈਂਡਵਿਡਥ ਕਾਲਾਂ", "desc": "ਧੀਮੀ ਇੰਟਰਨੈਟ ਸਪੀਡ ਲਈ ਵੀਡੀਓ ਕਾਲਾਂ ਰਾਹੀਂ ਡਾਕਟਰਾਂ ਨਾਲ ਸਲਾਹ ਕਰੋ।" }
       },
@@ -360,26 +448,35 @@ const resources = {
         "role": "ਖਾਤੇ ਦੀ ਭੂਮਿਕਾ",
         "language": "ਤਰਜੀਹੀ ਭਾਸ਼ਾ",
         "btn": "ਰਜਿਸਟਰ ਕਰੋ",
+        "haveAccount": "ਕੀ ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਤੋਂ ਖਾਤਾ ਹੈ?",
+        "login": "ਲੌਗਇਨ ਕਰੋ",
         "success": "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਫਲ! ਲੌਗਇਨ ਤੇ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
+      },
+      "login": {
+        "title": "ਸਾਈਨ ਇਨ",
+        "email": "ਈਮੇਲ ਪਤਾ",
+        "password": "ਪਾਸਵਰਡ",
+        "btn": "ਲੌਗਇਨ",
+        "noAccount": "ਕੀ ਤੁਹਾਡੇ ਕੋਲ ਖਾਤਾ ਨਹੀਂ ਹੈ?",
+        "register": "ਇੱਥੇ ਰਜਿਸਟਰ ਕਰੋ"
       },
       "checker": {
         "title": "AI ਲੱਛਣ ਜਾਂਚਕਰਤਾ",
-        "disclaimer": "ਇਹ ਸਾਧਨ ਤੁਹਾਡੇ ਲੱਛਣਾਂ ਦੇ ਅਧਾਰ ਤੇ ਇੱਕ AI-ਸੰਚਾਲਿਤ ਸਲਾਹ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ। ਇਹ ਡਾਕਟਰੀ ਨਿਦਾਨ ਨਹੀਂ ਹੈ। ਕਿਸੇ ਐਮਰਜੈਂਸੀ ਵਿੱਚ, ਕਿਰਪਾ ਕਰਕੇ ਤੁਰੰਤ ਆਪਣੀਆਂ ਸਥਾਨਕ ਐਮਰਜੈਂਸੀ ਸੇਵਾਵਾਂ ਨੂੰ ਕਾਲ ਕਰੋ।",
+        "disclaimer": "ਇਹ ਸਾਧਨ ਤੁਹਾਡੇ ਲੱਛਣਾਂ ਦੇ ਅਧਾਰ ਤੇ AI ਸਲਾਹ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ। ਇਹ ਡਾਕਟਰੀ ਨਿਦਾਨ ਨਹੀਂ ਹੈ।",
         "label": "ਆਪਣੇ ਲੱਛਣਾਂ ਦਾ ਸਪਸ਼ਟ ਵਰਣਨ ਕਰੋ:",
-        "placeholder": "ਉਦਾਹਰਨ ਲਈ, ਮੈਨੂੰ ਕੱੱਲ੍ਹ ਤੋਂ ਤੇਜ਼ ਸਿਰ ਦਰਦ ਅਤੇ ਉਲਟੀ ਮਹਿਸੂਸ ਹੋ ਰਹੀ ਹੈ...",
+        "placeholder": "ਉਦਾਹਰਨ ਲਈ, ਮੈਨੂੰ ਕੱਲ੍ਹ ਤੋਂ ਤੇਜ਼ ਸਿਰ ਦਰਦ ਹੈ...",
         "btn": "ਲੱਛਣਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰੋ",
         "analyzing": "ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
         "context": "ਵਿਸ਼ਲੇਸ਼ਣ ਸੰਦਰਭ:",
         "confidence": "ਭਰੋਸਾ / ਭਰੋਸੇਯੋਗਤਾ:",
         "recommendation": "ਸਿਫਾਰਸ਼:",
-        "offlineDisclaimer": "ਬੇਦਾਅਵਾ: ਔਫਲਾਈਨ ਮੋਡ ਵਿੱਚ ਚੱਲ ਰਿਹਾ ਹੈ। ਡਾਕਟਰੀ ਨਿਦਾਨ ਨਹੀਂ ਹੈ।",
+        "offlineDisclaimer": "ਬੇਦਾਅਵਾ: ਔਫਲਾਈਨ ਮੋਡ ਵਿੱਚ ਚੱਲ ਰਿਹਾ ਹੈ।",
         "offlineEstimate": "ਔਫਲਾਈਨ ਅਨੁਮਾਨ",
         "unknown": "ਅਣਜਾਣ",
-        "noInternet": "ਔਫਲਾਈਨ ਵਿਸ਼ਲੇਸ਼ਣ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕਿਰਪਾ ਕਰਕੇ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੋ ਜਾਂ ਡਾਕਟਰ ਨੂੰ ਮਿਲੋ।",
-        "apiError": "AI ਸੇਵਾ ਤੱਕ ਪਹੁੰਚਣ ਵਿੱਚ ਅਸਫਲ ਅਤੇ ਔਫਲਾਈਨ ਕੈਸ਼ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।",
+        "noInternet": "ਔਫਲਾਈਨ ਵਿਸ਼ਲੇਸ਼ਣ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕਿਰਪਾ ਕਰਕੇ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੋ।",
+        "apiError": "AI ਸੇਵਾ ਤੱਕ ਪਹੁੰਚਣ ਵਿੱਚ ਅਸਫਲ।",
         "labelDisclaimer": "ਬੇਦਾਅਵਾ"
       },
-      "login": { "title": "ਸਾਈਨ ਇਨ", "btn": "ਲੌਗਇਨ" },
       "sidebar": {
         "dashboard": "ਡੈਸ਼ਬੋਰਡ",
         "findMedicines": "ਦਵਾਈਆਂ ਲੱਭੋ",
@@ -388,6 +485,8 @@ const resources = {
         "healthRecords": "ਸਿਹਤ ਰਿਕਾਰਡ",
         "prescriptions": "ਨੁਸਖ਼ੇ",
         "videoConsult": "ਵੀਡੀਓ ਸਲਾਹ",
+        "manageUsers": "ਉਪਭੋਗਤਾ ਪ੍ਰਬੰਧਨ",
+        "myOrders": "ਮੇਰੇ ਆਰਡਰ",
         "logout": "ਲੌਗਆਉਟ",
         "language": "ਭਾਸ਼ਾ"
       },
@@ -410,17 +509,19 @@ const resources = {
         "uploadBtn": "ਫਾਈਲ ਅਪਲੋਡ ਕਰੋ",
         "dbRecords": "ਡਾਟਾਬੇਸ ਰਿਕਾਰਡ",
         "loading": "ਡਾਟਾਬੇਸ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
-        "noRecords": "ਡਾਟਾਬੇਸ ਵਿੱਚ ਕੋਈ ਰਿਕਾਰਡ ਨਹੀਂ ਮਿਲਿਆ।",
+        "noRecords": "ਕੋਈ ਰਿਕਾਰਡ ਨਹੀਂ ਮਿਲਿਆ।",
         "date": "ਮਿਤੀ",
         "forPatient": "ਮਰੀਜ਼ ਆਈਡੀ ਲਈ",
         "verified": "ਪ੍ਰਮਾਣਿਤ",
         "pending": "ਪ੍ਰਮਾਣਿਕਤਾ ਬਾਕੀ ਹੈ",
-        "verifyBtn": "ਪੁਸ਼ਟੀ ਕਰੋ"
+        "verifyBtn": "ਪੁਸ਼ਟੀ ਕਰੋ",
+        "openBtn": "ਦਸਤਾਵੇਜ਼ ਖੋਲ੍ਹੋ",
+        "closeBtn": "ਬੰਦ ਕਰੋ"
       },
       "pharmacy": {
         "title": "ਸਥਾਨਕ ਫਾਰਮੇਸੀ ਉਪਲਬਧਤਾ",
         "searchPlaceholder": "ਦਵਾਈ ਖੋਜੋ...",
-        "loading": "ਤੁਹਾਡੇ ਨੇੜੇ ਦੀਆਂ ਫਾਰਮੇਸੀਆਂ ਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ...",
+        "loading": "ਫਾਰਮੇਸੀਆਂ ਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ...",
         "noMedicines": "ਕੋਈ ਦਵਾਈ ਨਹੀਂ ਮਿਲੀ।",
         "inStock": "ਸਟਾਕ ਵਿੱਚ",
         "waiting": "ਡਿਲੀਵਰੀ ਦੀ ਉਡੀਕ",
@@ -439,7 +540,42 @@ const resources = {
         "noMedicinesReg": "ਕੋਈ ਦਵਾਈ ਰਜਿਸਟਰਡ ਨਹੀਂ ਹੈ।",
         "setInStock": "ਸਟਾਕ ਵਿੱਚ ਸੈੱਟ ਕਰੋ",
         "setOutOfStock": "ਆਊਟ ਆਫ ਸਟਾਕ ਸੈੱਟ ਕਰੋ",
-        "remove": "ਹਟਾਓ"
+        "remove": "ਹਟਾਓ",
+        "price": "ਕੀਮਤ (₹)",
+        "quantity": "ਮਾਤਰਾ",
+        "category": "ਸ਼੍ਰੇਣੀ",
+        "profileTab": "ਫਾਰਮੇਸੀ ਪ੍ਰੋਫਾਈਲ",
+        "inventoryTab": "ਇਨਵੈਂਟਰੀ",
+        "ordersTab": "ਆਰਡਰ",
+        "profileTitle": "ਫਾਰਮੇਸੀ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਸਥਾਨ",
+        "profileDesc": "ਆਪਣੀ ਫਾਰਮੇਸੀ ਦਾ ਨਾਮ ਅਤੇ ਸਥਾਨ ਸੈੱਟ ਕਰੋ।",
+        "profileSaved": "ਪ੍ਰੋਫਾਈਲ ਸਫਲਤਾਪੂਰਵਕ ਸੁਰੱਖਿਅਤ ਹੋ ਗਈ!",
+        "pharmacyName": "ਫਾਰਮੇਸੀ ਦਾ ਨਾਮ",
+        "pharmacyAddress": "ਪਤਾ / ਸਥਾਨ",
+        "latitude": "ਅਕਸ਼ਾਂਸ਼",
+        "longitude": "ਦੇਸ਼ਾਂਤਰ",
+        "detectLocation": "ਮੇਰਾ ਸਥਾਨ ਲੱਭੋ",
+        "saveProfile": "ਪ੍ਰੋਫਾਈਲ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+        "incomingOrders": "ਆਉਣ ਵਾਲੇ ਆਰਡਰ",
+        "noOrders": "ਅਜੇ ਕੋਈ ਆਰਡਰ ਨਹੀਂ।",
+        "locationDetected": "ਤੁਹਾਡਾ ਸਥਾਨ ਲੱਭ ਲਿਆ ਗਿਆ ਹੈ।",
+        "nearbyPharmacies": "ਨੇੜਲੀਆਂ ਫਾਰਮੇਸੀਆਂ",
+        "allMedicines": "ਸਾਰੀਆਂ ਦਵਾਈਆਂ",
+        "noPharmacies": "ਕੋਈ ਨੇੜਲੀ ਫਾਰਮੇਸੀ ਨਹੀਂ ਮਿਲੀ।",
+        "medsAvailable": "ਦਵਾਈਆਂ ਉਪਲਬਧ",
+        "viewMedicines": "ਦਵਾਈਆਂ ਦੇਖੋ",
+        "buy": "ਖਰੀਦੋ",
+        "itemsInCart": "ਕਾਰਟ ਵਿੱਚ ਆਈਟਮਾਂ",
+        "placeOrder": "ਆਰਡਰ ਦਿਓ",
+        "buyMedicine": "दਵਾਈ ਖਰੀਦੋ"
+      },
+      "orders": {
+        "title": "ਮੇਰੇ ਆਰਡਰ",
+        "loading": "ਆਰਡਰ ਲੋਡ ਹੋ ਰਹੇ ਹਨ...",
+        "noOrders": "ਅਜੇ ਕੋਈ ਆਰਡਰ ਨਹੀਂ",
+        "noOrdersDesc": "ਨੇੜਲੀਆਂ ਫਾਰਮੇਸੀਆਂ ਤੋਂ ਦਵਾਈਆਂ ਖਰੀਦੋ।",
+        "orderId": "ਆਰਡਰ ਆਈਡੀ",
+        "total": "ਕੁੱਲ"
       },
       "prescriptions": {
         "titleDoctor": "ਨੁਸਖ਼ੇ ਜਾਰੀ ਕਰੋ ਅਤੇ ਦੇਖੋ",
@@ -449,7 +585,7 @@ const resources = {
         "dosage": "ਖੁਰਾਕ",
         "submitBtn": "ਨੁਸਖ਼ਾ ਜਮ੍ਹਾਂ ਕਰੋ",
         "loading": "ਨੁਸਖ਼ੇ ਲੋਡ ਹੋ ਰਹੇ ਹਨ...",
-        "noPrescriptions": "ਡਾਟਾਬੇਸ ਵਿੱਚ ਕੋਈ ਨੁਸਖ਼ਾ ਨਹੀਂ ਮਿਲਿਆ।",
+        "noPrescriptions": "ਕੋਈ ਨੁਸਖ਼ਾ ਨਹੀਂ ਮਿਲਿਆ।",
         "prescBy": "ਨੁਸਖ਼ਾ ਦੁਆਰਾ",
         "dateAdded": "ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਮਿਤੀ",
         "forPatient": "ਮਰੀਜ਼ ਆਈਡੀ ਲਈ",
@@ -483,6 +619,7 @@ const resources = {
       }
     }
   },
+
   ta: {
     translation: {
       "nav": { "brand": "டெலிமெடிசின்", "signin": "உள்நுழைக" },
@@ -512,24 +649,33 @@ const resources = {
         "role": "கணக்கு பங்கு",
         "language": "விருப்பமான மொழி",
         "btn": "பதிவு செய்",
+        "haveAccount": "ஏற்கனவே கணக்கு உள்ளதா?",
+        "login": "உள்நுழைக",
         "success": "பதிவு வெற்றிகரமாக முடிந்தது! உள்நுழைவு பக்கத்திற்கு அனுப்பப்படுகிறது..."
       },
-      "login": { "title": "உள்நுழைவு", "btn": "உள்நுழை" },
+      "login": {
+        "title": "உள்நுழைவு",
+        "email": "மின்னஞ்சல் முகவரி",
+        "password": "கடவுச்சொல்",
+        "btn": "உள்நுழை",
+        "noAccount": "கணக்கு இல்லையா?",
+        "register": "இங்கே பதிவு செய்யுங்கள்"
+      },
       "checker": {
         "title": "AI அறிகுறி சரிபார்ப்பு",
-        "disclaimer": "இந்தக் கருவி உங்கள் அறிகுறிகளின் அடிப்படையில் AI-மூலம் இயங்கும் ஆலோசனையை வழங்குகிறது. இது மருத்துவ நோயறிதல் அல்ல. அவசரக்காலத்தில், உடனடியாக உங்கள் உள்ளூர் அவசரச் சேவைகளை அழைக்கவும்.",
+        "disclaimer": "இந்தக் கருவி AI-மூலம் ஆலோசனையை வழங்குகிறது. இது மருத்துவ நோயறிதல் அல்ல.",
         "label": "உங்கள் அறிகுறிகளைத் தெளிவாக விவரிக்கவும்:",
-        "placeholder": "உதாரணமாக, எனக்கு நேற்று முதல் கடுமையான தலைவலி மற்றும் குமட்டல் உள்ளது...",
+        "placeholder": "உதாரணமாக, எனக்கு நேற்று முதல் கடுமையான தலைவலி உள்ளது...",
         "btn": "அறிகுறிகளை ஆய்வு செய்",
         "analyzing": "ஆய்வு செய்யப்படுகிறது...",
         "context": "ஆய்வு சூழல்:",
         "confidence": "நம்பிக்கை / நம்பகத்தன்மை:",
         "recommendation": "பரிந்துரை:",
-        "offlineDisclaimer": "பொறுப்புத் துறப்பு: ஆஃப்லைன் பயன்முறையில் இயங்குகிறது. மருத்துவ நோயறிதல் அல்ல.",
+        "offlineDisclaimer": "பொறுப்புத் துறப்பு: ஆஃப்லைன் பயன்முறையில் இயங்குகிறது.",
         "offlineEstimate": "ஆஃப்லைன் மதிப்பீடு",
         "unknown": "அறியப்படாதது",
-        "noInternet": "ஆஃப்லைனில் ஆய்வு செய்ய முடியாது. தயவுசெய்து இணையத்துடன் இணையவும் அல்லது மருத்துவரைப் பார்க்கவும்.",
-        "apiError": "AI சேவையை அணுக முடியவில்லை மற்றும் ஆஃப்லைன் தற்காலிக சேமிப்பு இல்லை.",
+        "noInternet": "ஆஃப்லைனில் ஆய்வு செய்ய முடியாது. இணையத்துடன் இணையவும்.",
+        "apiError": "AI சேவையை அணுக முடியவில்லை.",
         "labelDisclaimer": "பொறுப்புத் துறப்பு"
       },
       "sidebar": {
@@ -540,6 +686,8 @@ const resources = {
         "healthRecords": "சுகாதார பதிவுகள்",
         "prescriptions": "மருந்துச் சீட்டுகள்",
         "videoConsult": "வீடியோ ஆலோசனை",
+        "manageUsers": "பயனர் மேலாண்மை",
+        "myOrders": "எனது ஆர்டர்கள்",
         "logout": "வெளியேறு",
         "language": "மொழி"
       },
@@ -562,17 +710,19 @@ const resources = {
         "uploadBtn": "கோப்பைப் பதிவேற்றவும்",
         "dbRecords": "தரவுத்தள பதிவுகள்",
         "loading": "தரவுத்தளம் ஏற்றப்படுகிறது...",
-        "noRecords": "தரவுத்தளத்தில் பதிவுகள் எதுவும் இல்லை.",
+        "noRecords": "பதிவுகள் எதுவும் இல்லை.",
         "date": "தேதி",
         "forPatient": "நோயாளி ஐடிக்காக",
         "verified": "சரிபார்க்கப்பட்டது",
         "pending": "சரிபார்ப்பு நிலுவையில் உள்ளது",
-        "verifyBtn": "சரிபார்க்கவும்"
+        "verifyBtn": "சரிபார்க்கவும்",
+        "openBtn": "ஆவணத்தைத் திறக்கவும்",
+        "closeBtn": "மூடு"
       },
       "pharmacy": {
         "title": "உள்ளூர் மருந்தக இருப்பு",
         "searchPlaceholder": "மருந்தைத் தேடுங்கள்...",
-        "loading": "உங்களுக்கு அருகிலுள்ள மருந்தகங்கள் ஏற்றப்படுகின்றன...",
+        "loading": "மருந்தகங்கள் ஏற்றப்படுகின்றன...",
         "noMedicines": "மருந்துகள் எதுவும் இல்லை.",
         "inStock": "இருப்பில் உள்ளது",
         "waiting": "டெலிவரிக்காகக் காத்திருக்கிறது",
@@ -591,17 +741,52 @@ const resources = {
         "noMedicinesReg": "மருந்துகள் எதுவும் பதிவு செய்யப்படவில்லை.",
         "setInStock": "இருப்பில் உள்ளதாக அமை",
         "setOutOfStock": "இருப்பில் இல்லை என அமை",
-        "remove": "நீக்கு"
+        "remove": "நீக்கு",
+        "price": "விலை (₹)",
+        "quantity": "அளவு",
+        "category": "வகை",
+        "profileTab": "மருந்தக சுயவிவரம்",
+        "inventoryTab": "இருப்பு",
+        "ordersTab": "ஆர்டர்கள்",
+        "profileTitle": "மருந்தக சுயவிவரம் & இடம்",
+        "profileDesc": "உங்கள் மருந்தகத்தின் பெயர் மற்றும் இருப்பிடத்தை அமைக்கவும்.",
+        "profileSaved": "சுயவிவரம் சேமிக்கப்பட்டது!",
+        "pharmacyName": "மருந்தகத்தின் பெயர்",
+        "pharmacyAddress": "முகவரி / இடம்",
+        "latitude": "அட்சரேகை",
+        "longitude": "தீர்க்கரேகை",
+        "detectLocation": "எனது இடத்தைக் கண்டறி",
+        "saveProfile": "சுயவிவரத்தைச் சேமி",
+        "incomingOrders": "வரும் ஆர்டர்கள்",
+        "noOrders": "இன்னும் ஆர்டர்கள் இல்லை.",
+        "locationDetected": "உங்கள் இடம் கண்டறியப்பட்டது.",
+        "nearbyPharmacies": "அருகிலுள்ள மருந்தகங்கள்",
+        "allMedicines": "அனைத்து மருந்துகள்",
+        "noPharmacies": "அருகில் மருந்தகங்கள் இல்லை.",
+        "medsAvailable": "மருந்துகள் கிடைக்கும்",
+        "viewMedicines": "மருந்துகளைப் பார்",
+        "buy": "வாங்கு",
+        "itemsInCart": "கார்ட்டில் உள்ள பொருட்கள்",
+        "placeOrder": "ஆர்டர் செய்",
+        "buyMedicine": "மருந்து வாங்கு"
+      },
+      "orders": {
+        "title": "எனது ஆர்டர்கள்",
+        "loading": "ஆர்டர்கள் ஏற்றப்படுகின்றன...",
+        "noOrders": "இன்னும் ஆர்டர்கள் இல்லை",
+        "noOrdersDesc": "அருகிலுள்ள மருந்தகங்களிலிருந்து மருந்துகளை வாங்கவும்.",
+        "orderId": "ஆர்டர் ஐடி",
+        "total": "மொத்தம்"
       },
       "prescriptions": {
-        "titleDoctor": "மருந்துச் சீட்டுகளை வழங்கிப் பார்க்கவும்",
+        "titleDoctor": "மருந்துச் சீட்டுகளை வழங்கவும்",
         "titlePatient": "எனது மருந்துச் சீட்டுகள்",
         "issueTitle": "புதிய மருந்துச் சீட்டை வழங்கவும்",
         "medicines": "மருந்துகள்",
         "dosage": "அளவு",
         "submitBtn": "மருந்துச் சீட்டைச் சமர்ப்பிக்கவும்",
         "loading": "மருந்துச் சீட்டுகள் ஏற்றப்படுகின்றன...",
-        "noPrescriptions": "தரவுத்தளத்தில் மருந்துச் சீட்டுகள் இல்லை.",
+        "noPrescriptions": "மருந்துச் சீட்டுகள் இல்லை.",
         "prescBy": "மருந்துச் சீட்டு வழங்கியவர்",
         "dateAdded": "சேர்க்கப்பட்ட தேதி",
         "forPatient": "நோயாளி ஐடிக்காக",
@@ -612,7 +797,7 @@ const resources = {
         "status": "நிலை",
         "myCamera": "எனது கேமரா",
         "consultFeed": "ஆலோசனை ஊட்டம்",
-        "awaiting": "வீடியோ ஸ்டீமிற்காகக் காத்திருக்கிறது...",
+        "awaiting": "வீடியோ ஸ்ட்ரீமிற்காகக் காத்திருக்கிறது...",
         "endCall": "அழைப்பை முடி / துண்டி"
       },
       "admin": {
@@ -641,7 +826,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
+    lng: localStorage.getItem('i18nextLng') || 'en',
     fallbackLng: 'en',
     interpolation: { escapeValue: false }
   });

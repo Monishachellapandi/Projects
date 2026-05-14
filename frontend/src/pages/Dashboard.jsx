@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DashboardChart from '../components/DashboardChart';
+import { Pill, FolderOpen, Hospital, Users, Video } from 'lucide-react';
 
 function Dashboard() {
     const { user, token } = useAuth();
@@ -52,10 +53,10 @@ function Dashboard() {
     }, [token]);
 
     const statsConfig = [
-        { label: t('stats.prescriptions'), val: summary.prescriptions, color: '#3b82f6', icon: '💊' },
-        { label: t('stats.records'), val: summary.records, color: '#10b981', icon: '📂' },
-        { label: t('stats.pharmacies'), val: summary.pharmacies, color: '#ec4899', icon: '🏥' },
-        { label: t('stats.users'), val: summary.users, color: '#8b5cf6', icon: '👥' }
+        { label: t('stats.prescriptions'), val: summary.prescriptions, color: '#3b82f6', icon: <Pill size={24} color="#3b82f6" /> },
+        { label: t('stats.records'),       val: summary.records,       color: '#10b981', icon: <FolderOpen size={24} color="#10b981" /> },
+        { label: t('stats.pharmacies'),    val: summary.pharmacies,    color: '#ec4899', icon: <Hospital size={24} color="#ec4899" /> },
+        { label: t('stats.users'),         val: summary.users,         color: '#8b5cf6', icon: <Users size={24} color="#8b5cf6" /> },
     ];
 
     return (
@@ -65,22 +66,32 @@ function Dashboard() {
                 {(user.role === 'Patient' || user.role === 'Doctor') && (
                     <Link to="/video" style={{ textDecoration: 'none' }}>
                         <button className="btn btn-primary" style={{ display: 'flex', gap: 8, alignItems: 'center', background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)' }}>
-                            <span style={{ fontSize: '18px' }}>📹</span> {t('stats.videoBtn')}
+                            <Video size={18} /> {t('stats.videoBtn')}
                         </button>
                     </Link>
                 )}
             </div>
 
-            <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: '18px' }}>
-                {t('dashboard.welcome')} <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! {t('stats.monitoring')}
-            </p>
+            <div style={{ marginBottom: 24 }}>
+                <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '18px' }}>
+                    {t('dashboard.welcome')} <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{user.name}</span>! {t('stats.monitoring')}
+                </p>
+                {user.role === 'Patient' && user.patientId && (
+                    <div style={{ marginTop: '12px', padding: '12px 16px', background: '#e0f2fe', borderRadius: '8px', display: 'inline-block', border: '1px solid #bae6fd', color: '#0369a1', fontSize: '15px' }}>
+                        <strong style={{ marginRight: '8px' }}>Your Patient ID:</strong> 
+                        <span style={{ fontFamily: 'monospace', fontSize: '16px', letterSpacing: '1px', background: '#fff', padding: '4px 8px', borderRadius: '4px', border: '1px solid #7dd3fc' }}>
+                            {user.patientId}
+                        </span>
+                    </div>
+                )}
+            </div>
 
             {loading ? <p>Loading system metrics...</p> : (
                 <>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '40px' }}>
                         {statsConfig.map((stat, idx) => (
                             <div key={idx} className="card" style={{ display: 'flex', flexDirection: 'column', padding: '24px', borderLeft: `6px solid ${stat.color}`, background: 'rgba(30, 41, 59, 0.4)' }}>
-                                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{stat.icon}</div>
+                                <div style={{ marginBottom: '8px' }}>{stat.icon}</div>
                                 <h2 style={{ fontSize: '32px', fontWeight: '800', margin: 0, color: '#fff' }}>
                                     {stat.val}
                                 </h2>

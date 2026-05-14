@@ -101,9 +101,44 @@ function authenticateToken(req, res, next) {
 app.get('/api/admin/users', authenticateToken, async (req, res) => {
     if (req.user.role !== 'Admin') return res.status(403).json({ error: 'Admin access required' });
     try {
-        const users = await User.find({}, 'name email role');
+        const users = await User.find({}, 'name email role patientId');
         const formattedUsers = users.map(u => ({ id: u._id.toString(), ...u.toObject() }));
         res.json(formattedUsers);
+    } catch (err) {
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.delete('/api/admin/users/:id', authenticateToken, async (req, res) => {
+    if (req.user.role !== 'Admin') return res.status(403).json({ error: 'Admin access required' });
+    try {
+        // Prevent deleting oneself
+        if (req.params.id === req.user.id) {
+            return res.status(400).json({ error: 'You cannot delete your own admin account' });
+        }
+        
+        const result = await User.findByIdAndDelete(req.params.id);
+        if (!result) return res.status(404).json({ error: 'User not found' });
+        
+        res.json({ message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.put('/api/admin/users/:id', authenticateToken, async (req, res) => {
+    if (req.user.role !== 'Admin') return res.status(403).json({ error: 'Admin access required' });
+    try {
+        const { role, name, email } = req.body;
+        const updateFields = {};
+        if (role) updateFields.role = role;
+        if (name) updateFields.name = name;
+        if (email) updateFields.email = email;
+
+        const user = await User.findByIdAndUpdate(req.params.id, updateFields, { new: true });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json({ message: 'User updated successfully', user: { id: user._id.toString(), role: user.role, name: user.name } });
     } catch (err) {
         res.status(500).json({ error: 'Database error' });
     }
